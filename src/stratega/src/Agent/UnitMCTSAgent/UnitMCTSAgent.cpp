@@ -31,8 +31,9 @@ namespace SGA {
     ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
         auto stateCopy(state);
         computeAction_test(state, forwardModel, timer, true);
-        printf("\n");
         ActionAssignment a = computeAction_test(stateCopy, forwardModel, timer, false);
+
+        printf("\n");
         return a;
     }
 
@@ -45,7 +46,7 @@ namespace SGA {
        int previousActionIndex_cp = previousActionIndex;
        int playerTurn_cp = playerTurn;
        int step_cp = step;
-       bool unitIndexInitialized_cp = unitIndexInitialized;
+       // bool unitIndexInitialized_cp = unitIndexInitialized;
        bool unitThisStep_cp = unitThisStep;
        bool unitNextStep_cp = unitNextStep;
 
@@ -126,7 +127,7 @@ namespace SGA {
                previousActionIndex = previousActionIndex_cp;
                playerTurn = playerTurn_cp;
                step = step_cp;
-               unitIndexInitialized = unitIndexInitialized_cp;
+               // unitIndexInitialized = unitIndexInitialized_cp;
                unitThisStep = unitThisStep_cp;
                unitNextStep = unitNextStep_cp;
              }
@@ -172,7 +173,7 @@ namespace SGA {
             previousActionIndex = previousActionIndex_cp;
             playerTurn = playerTurn_cp;
             step = step_cp;
-            unitIndexInitialized = unitIndexInitialized_cp;
+            // unitIndexInitialized = unitIndexInitialized_cp;
             unitThisStep = unitThisStep_cp;
             unitNextStep = unitNextStep_cp;
             }
@@ -547,7 +548,7 @@ namespace SGA {
                previousActionIndex = previousActionIndex_cp;
                playerTurn = playerTurn_cp;
                step = step_cp;
-               unitIndexInitialized = unitIndexInitialized_cp;
+               // unitIndexInitialized = unitIndexInitialized_cp;
                unitThisStep = unitThisStep_cp;
                unitNextStep = unitNextStep_cp;
           }
