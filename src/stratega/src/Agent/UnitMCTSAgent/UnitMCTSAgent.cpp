@@ -30,20 +30,28 @@ namespace SGA {
     }
     ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
         auto stateCopy(state);
-        computeAction_test(stateCopy, forwardModel, timer, true);
-        printf("test finished\n");
-        ActionAssignment a = computeAction_test(state, forwardModel, timer, false);
+        auto a_test = computeAction_test(stateCopy, forwardModel, timer, true);
+        // printf("test finished\n");
+        auto a_run = computeAction_test(state, forwardModel, timer, false);
+
+        int hash_test = unitActionHash(a_test);
+        int hash_run = unitActionHash(a_run);
+        if (hash_test == hash_run){
+         print("change action: 0\n");
+        } else{
+         print("change action: 1\n");
+        }
 
         printf("\n");
-        return a;
+        return ActionAssignment::fromSingleAction(a_run);
     }
 
     ActionAssignment UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
     {
 
-       if (test){
-         printf("test\n");
-       }
+      //  if (test){
+      //    printf("test\n");
+      //  }
        bool newRound_cp = newRound;
        int global_absNodeIndex_cp = global_absNodeIndex;
        bool initialized_cp = initialized;
@@ -146,7 +154,8 @@ namespace SGA {
              }
              // printf("return with action\n");
              state.printActionInfo(endAction);
-             return ActionAssignment::fromSingleAction(endAction);
+             // return ActionAssignment::fromSingleAction(endAction);
+             return endAction;
           }
 
           unitThisStep = tmp_unitNextStep;
@@ -572,7 +581,8 @@ namespace SGA {
                unitThisStep = unitThisStep_cp;
                unitNextStep = unitNextStep_cp;
           }
-          return ActionAssignment::fromSingleAction(bestAction);
+          // return ActionAssignment::fromSingleAction(bestAction);
+          return bestAction;
        }
     }
 
