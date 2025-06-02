@@ -29,15 +29,26 @@ namespace SGA {
             parameters_.printDetails();
     }
     ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
-        computeAction_test(state, forwardModel, timer);
-        ActionAssignment a = computeAction_test(state, forwardModel, timer);
+        computeAction_test(state, forwardModel, timer, true);
+        ActionAssignment a = computeAction_test(state, forwardModel, timer, false);
         return a;
     }
 
-    ActionAssignment UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer)
+    ActionAssignment UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
     {
+
+       bool newRound_cp = newRound;
+       int global_absNodeIndex_cp = global_absNodeIndex;
+       bool initialized_cp = initialized;
+       int previousActionIndex_cp = previousActionIndex;
+       int playerTurn_cp = playerTurn;
+       int step_cp = step;
+       bool unitIndexInitialized_cp = unitIndexInitialized;
+       bool unitThisStep_cp = unitThisStep;
+       bool unitNextStep_cp = unitNextStep;
+
        if(newRound) {
-          newRound = false;
+         newRound = false;
        }
        parameters_.global_nodeID = 0;  // reinitialize the ID for node, witch is incremental as nodes created
        auto units = state.getPlayerEntities(getPlayerID()); 
@@ -99,12 +110,24 @@ namespace SGA {
              step++;  // for debugging
 
              Action endAction = Action::createEndAction(getPlayerID());
+
              unitThisStep = 0;
              unitNextStep = 1;
              newRound = true;
 
              // state.printBoard();
 			 // std::cout<<"execute EndTurn if there is no valid next unit."<<std::endl;
+             if (test){
+               newRound= newRound_cp;
+               global_absNodeIndex = global_absNodeIndex_cp;
+               initialized = initialized_cp;
+               previousActionIndex = previousActionIndex_cp;
+               playerTurn = playerTurn_cp;
+               step = step_cp;
+               unitIndexInitialized = unitIndexInitialized_cp
+               unitThisStep = unitThisStep_cp;
+               unitNextStep = unitNextStep_cp;
+             }
              return ActionAssignment::fromSingleAction(endAction);
           }
 
@@ -140,6 +163,17 @@ namespace SGA {
 
           // state.printBoard();
           // state.printActionInfo(actionSpace.at(0));
+          if (test){
+            newRound= newRound_cp;
+            global_absNodeIndex = global_absNodeIndex_cp;
+            initialized = initialized_cp;
+            previousActionIndex = previousActionIndex_cp;
+            playerTurn = playerTurn_cp;
+            step = step_cp;
+            unitIndexInitialized = unitIndexInitialized_cp
+            unitThisStep = unitThisStep_cp;
+            unitNextStep = unitNextStep_cp;
+            }
           return ActionAssignment::fromSingleAction(actionSpace.at(0));
        } else {
           if(parameters_.CONTINUE_PREVIOUS_SEARCH && previousActionIndex != -1) {
@@ -197,122 +231,6 @@ namespace SGA {
                 &depthToNodes,
                 &absNodeToStatistics);
 
-             //for aamas
-             if(parameters_.IS_UNGROUPING){
-                 if(parameters_.SINGLE_UNGROUPING){
-                     for (int i = 1; i < parameters_.maxDepth; i++) { // depth
-                        //if (absNodes[i].size() == 0) {
-                        //    break;
-                        //}
-
-                         std::vector<int> ungrouped_indices = {};
-                         for (int j = 0; j < absNodes[i].size(); j++) { // abs node
-                             if (absNodes[i].size() > 0){
-                                 if(absNodes[i][j][0]->isUngrouped)continue;
-                                 int absVisit = absNodes[i][j][0]->getVisitCount(&absNodeToStatistics);
-                                 int absSize = absNodes[i][j].size();
-                                 double ungrouping_threshold = 0.0;
-                                 if (parameters_.IS_PHI_UNGROUPING) {
-                                     ungrouping_threshold = absSize*parameters_.batch_size;
-                                 }
-                                 else {
-                                     ungrouping_threshold = parameters_.UNGROUPING_BATCH_THRESHOLD*parameters_.batch_size;
-                                 }
-                                 if(absVisit - parameters_.R_THRESHOLD*2.0 *absSize* absSize > ungrouping_threshold){
-                                     ungrouped_indices.push_back(j);
-                                     //std::cout<<"Batch: "<< tmp_batch_used << ", ungrouping abstraction\n";
-                                     for (int k = 0 ; k < absSize; k++){
-                                         absNodes[i][j][k]->isAbstracted=false;
-                                         absNodes[i][j][k]->isUngrouped=true;
-                                     }
-                                 }
-                             }//end if
-                         }//end for
-                         for (int idx = ungrouped_indices.size()-1; idx>=0 ;idx--) {
-                             absNodes[i].erase(absNodes[i].begin()+ungrouped_indices[idx]);
-                         }
-                     }
-                 }
-                 else if (parameters_.LAYER_UNGROUPING) {
-                     for (int i = 1; i < parameters_.maxDepth; i++) { // depth
-                         //if (absNodes[i].size() == 0) {
-                         //    break;
-                         //}
-                         if(absNodes[i].size() == 0)continue;
-                         bool toUngroup = true;
-                         for (int j = 0; j < absNodes[i].size(); j++) { // abs node
-                             if(absNodes[i][j][0]->isUngrouped)continue;
-                             int absVisit = absNodes[i][j][0]->getVisitCount(&absNodeToStatistics);
-                             int absSize = absNodes[i][j].size();
-                             double ungrouping_threshold = 0.0;
-                             if (parameters_.IS_PHI_UNGROUPING) {
-                                 ungrouping_threshold = parameters_.batch_size/absSize;
-                             }
-                             else {
-                                 ungrouping_threshold = parameters_.UNGROUPING_BATCH_THRESHOLD*parameters_.batch_size;
-                                 //ungrouping_threshold = 0.3*parameters_.batch_size;
-                             }
-                             if(absVisit - absSize* absSize < ungrouping_threshold){
-                                 toUngroup=false;
-                                 break;
-                             }
-                         }//end for
-
-                         if (toUngroup) {
-                             std::cout<<"[LAYER UNGROUPING] batch: " << n_abs_iteration << " layer: "<< i << " UNGROUPING the subtree\n";
-                             /*for (int j = 0; j < absNodes[i].size(); j++) { // abs node
-                                 int absSize = absNodes[i][j].size();
-                                 for (int k = 0 ; k < absSize; k++){
-                                    absNodes[i][j][k]->isAbstracted=false;
-                                    absNodes[i][j][k]->isUngrouped=true;
-                                 }
-                                 absNodes[i].clear();
-                                 std::cout<<absNodes[i].size()<<"\n";
-                             }*/
-                             stop_abstraction = true;
-                             deleteAbstraction();  // initialize the array empty again,
-                             rootNode->eliminateAbstraction();  // make the flag of (has been abstracted) to false
-
-                         }
-                     }
-                 }
-                 else if (parameters_.SUBTREE_UNGROUPING) {
-
-                     for (int i = 1; i < parameters_.maxDepth; i++) { // depth
-                        //if (absNodes[i].size() == 0) {
-                        //    break;
-                        //}
-
-                         std::vector<int> ungrouped_indices = {};
-                         for (int j = 0; j < absNodes[i].size(); j++) { // abs node
-                             if (absNodes[i].size() > 0){
-                                 if(absNodes[i][j][0]->isUngrouped)continue;
-                                 int absVisit = absNodes[i][j][0]->getVisitCount(&absNodeToStatistics);
-                                 int absSize = absNodes[i][j].size();
-                                 double ungrouping_threshold = 0.0;
-                                 if (parameters_.IS_PHI_UNGROUPING) {
-                                     ungrouping_threshold = absSize*parameters_.batch_size;
-                                 }
-                                 else {
-                                     ungrouping_threshold = parameters_.UNGROUPING_BATCH_THRESHOLD*parameters_.batch_size;
-                                     //ungrouping_threshold = 0.5*parameters_.batch_size;
-                                 }
-                                 if(absVisit - absSize* absSize > ungrouping_threshold){
-                                     ungrouped_indices.push_back(j);
-                                     //std::cout<<"Batch: "<< tmp_batch_used << ", ungrouping abstract node, size: " <<absSize <<", visiting: "<<absVisit<<" T: "<<ungrouping_threshold << "\n";
-                                     for (int k = 0 ; k < absSize; k++){
-                                         absNodes[i][j][k]->eliminateAbstraction();
-                                         absNodes[i][j][k]->isUngrouped=true;
-                                     }
-                                 }
-                             }//end if
-                         }//end for
-                         for (int idx = ungrouped_indices.size()-1; idx>=0 ;idx--) {
-                             absNodes[i].erase(absNodes[i].begin()+ungrouped_indices[idx]);
-                         }
-                    }
-                 }// end if
-              }
              /*
              std::cout<<"After ungrouping, number of abs Node each depth:\n";
              for (int i = 1; i < parameters_.maxDepth; i++) {
@@ -488,12 +406,6 @@ namespace SGA {
                     std::cout<<"batch: " << tmp_batch_used << " " << float(treeNodetoAbsNode.size()) / absNodeToStatistics.size() << std::endl;
              //*/
 
-             //aamas
-             /*if (tmp_batch_used == 12 || tmp_batch_used == 14) {
-                 printAbsNodeStatus();
-                 rootNode->printTree();
-             }*/
-
              // tmp_batch_used >=20 means do maximum 20 times abstraction in a step
              if(parameters_.REMAINING_FM_CALLS <= 0 || rootNode->n_search_iteration >= parameters_.maxFMCalls) {
                  //
@@ -577,8 +489,8 @@ namespace SGA {
           if(n_node == 1)
              previousActionIndex = -1;
 
-          // std::cout << "-> UnitMCTS Action Took: ";
-          // state.printActionInfo(bestAction);
+          std::cout << "-> UnitMCTS Action Took: ";
+          state.printActionInfo(bestAction);
           // std::cout << unitActionHash(bestAction) << std::endl;
           // std::cout << " End printActionInfo " << std::endl;
           //state.printBoard();
@@ -626,9 +538,21 @@ namespace SGA {
               stepInit();  // reinitialize homomorphism
           }
           //system("pause");
+          if (test){
+               newRound= newRound_cp;
+               global_absNodeIndex = global_absNodeIndex_cp;
+               initialized = initialized_cp;
+               previousActionIndex = previousActionIndex_cp;
+               playerTurn = playerTurn_cp;
+               step = step_cp;
+               unitIndexInitialized = unitIndexInitialized_cp
+               unitThisStep = unitThisStep_cp;
+               unitNextStep = unitNextStep_cp;
+          }
           return ActionAssignment::fromSingleAction(bestAction);
        }
     }
+
 
     bool UnitMCTSAgent::isTwoNodeApproxmateHomomorphism(const ForwardModel& forwardModel, UnitMCTSNode* node1, UnitMCTSNode* node2, double reward_threshold, double transition_threshold)
     {
