@@ -742,7 +742,7 @@ namespace SGA {
          printf("\nprintAbsNodeStatus\n");
          for (int i = 1; i < parameters_.maxDepth; i++) {
             int abs_size = absNodes[i].size();
-            printf("checking depth %d\n", absNodes[i][0][0].nodeDepth);
+            printf("checking depth %d\n", absNodes[i][0][0]->nodeDepth);
             std::cout<< "depth: "<< i << " abs Node: "<< abs_size << "\n";
             if(abs_size == 0) continue;
 
