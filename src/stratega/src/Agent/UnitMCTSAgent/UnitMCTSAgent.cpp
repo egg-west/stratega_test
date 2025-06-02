@@ -50,7 +50,7 @@ namespace SGA {
 
     Action UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
     {
-      printf(f"do abstraction %d", parameters_.DO_STATE_ABSTRACTION);
+      printf("do abstraction %d", parameters_.DO_STATE_ABSTRACTION);
       //  if (test){
       //    printf("test\n");
       //  }
