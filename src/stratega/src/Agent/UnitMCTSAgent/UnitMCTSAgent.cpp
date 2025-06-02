@@ -205,6 +205,7 @@ namespace SGA {
 
           } else  // start a new tree
           {
+            printf("make a new rootNode!\n\n");
              rootNode = std::make_unique< UnitMCTSNode >(
                 *processedForwardModel, state, unitIndex, unitThisStep, getPlayerID(), 0);
 
