@@ -133,7 +133,7 @@ namespace SGA {
              // state.printBoard();
 			 // std::cout<<"execute EndTurn if there is no valid next unit."<<std::endl;
              if (test){
-               print("test recover point 1\n");
+               printf("test recover point 1\n");
                newRound= newRound_cp;
                global_absNodeIndex = global_absNodeIndex_cp;
                initialized = initialized_cp;
