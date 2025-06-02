@@ -31,6 +31,7 @@ namespace SGA {
     ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
         auto stateCopy(state);
         computeAction_test(stateCopy, forwardModel, timer, true);
+        printf("test finished\n");
         ActionAssignment a = computeAction_test(state, forwardModel, timer, false);
 
         printf("\n");
@@ -50,8 +51,8 @@ namespace SGA {
        int playerTurn_cp = playerTurn;
        int step_cp = step;
        // bool unitIndexInitialized_cp = unitIndexInitialized;
-       bool unitThisStep_cp = unitThisStep;
-       bool unitNextStep_cp = unitNextStep;
+       int unitThisStep_cp = unitThisStep;
+       int unitNextStep_cp = unitNextStep;
 
        printf("before search, unitThisStep: %d, next: %d", unitThisStep, unitNextStep);
 
@@ -132,6 +133,7 @@ namespace SGA {
              // state.printBoard();
 			 // std::cout<<"execute EndTurn if there is no valid next unit."<<std::endl;
              if (test){
+               print("test recover point 1\n");
                newRound= newRound_cp;
                global_absNodeIndex = global_absNodeIndex_cp;
                initialized = initialized_cp;
