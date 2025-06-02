@@ -451,8 +451,12 @@ namespace SGA {
 
           // printf("After search, root visted: %d\n", rootNode->n_search_iteration);
           auto bestActionIndex = rootNode->mostVisitedAction( parameters_, getRNGEngine() );  // get and store best action
-         for (auto child: rootNode->children){
+         for (size_t i = 0; i < (rootNode->children).size(); ++i)
+         {
+            UnitMCTSNode* child = rootNode->children[i].get();
+
             child->print();
+            // printf("children value: %f\n", hvVal);
          }
           /*if (bestActionIndex == actionSpace.size()-1) { // this action is an endTurn, reinitialize
               //unitThisStep = 0;
