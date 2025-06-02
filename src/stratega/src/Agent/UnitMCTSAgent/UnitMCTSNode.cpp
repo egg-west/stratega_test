@@ -620,7 +620,7 @@ namespace SGA
 		//printTree();
 
 		std::vector<double> childValues(children.size(), 0);
-		printf("children size: %lu\n", children.size());
+		// printf("children size: %lu\n", children.size());
 		for (size_t i = 0; i < children.size(); ++i)
 		{
 			UnitMCTSNode* child = children[i].get();
