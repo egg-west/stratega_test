@@ -38,7 +38,7 @@ namespace SGA {
 
         int hash_test = unitActionHash(a_test);
         int hash_run = unitActionHash(a_run);
-        if (hash_test == hash_run){
+        if (hash_test != -1 && hash_test != 0 && hash_test == hash_run){
          printf("change action: 0\n");
         } else{
          printf("change action: 1\n");
@@ -433,17 +433,17 @@ namespace SGA {
 
              n_abs_iteration++;
              tmp_batch_used++;
-             
 
-             /* analyze the compression rate
+
+             ///* analyze the compression rate
              if (tmp_batch_used < 21 && (absNodeToStatistics.size() != 0) && (treeNodetoAbsNode.size() != 0))
-                    std::cout<<"batch: " << tmp_batch_used << " " << float(treeNodetoAbsNode.size()) / absNodeToStatistics.size() << std::endl;
+                    std::cout<<"compression_rate: " << tmp_batch_used << " " << float(treeNodetoAbsNode.size()) / absNodeToStatistics.size() << std::endl;
              //*/
 
              // tmp_batch_used >=20 means do maximum 20 times abstraction in a step
              if(parameters_.REMAINING_FM_CALLS <= 0 || rootNode->n_search_iteration >= parameters_.maxFMCalls) {
                  //
-                 
+
                  //std::cout<<"End searching, number of abs Node each depth:\n";
                  //rootNode->printTree();
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
@@ -536,7 +536,7 @@ namespace SGA {
           //double score  = parameters_.heuristic->evaluateGameState(forwardModel, state,parameters_.PLAYER_ID );
           //std::cout<<score << "\n";
 
-          /*
+         ///*
           for (int i = 1; i < 10; i++) { // depth
                if (absNodes[i].size() == 0) {
                   std::cout<<"\n";
