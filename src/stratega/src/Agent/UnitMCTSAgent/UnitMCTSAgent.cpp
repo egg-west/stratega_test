@@ -28,8 +28,13 @@ namespace SGA {
         if(is_debug)
             parameters_.printDetails();
     }
+    ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
+        computeAction_test(state, forwardModel, timer);
+        ActionAssignment a = computeAction_test(state, forwardModel, timer);
+        return a;
+    }
 
-    ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer)
+    ActionAssignment UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer)
     {
        if(newRound) {
           newRound = false;
