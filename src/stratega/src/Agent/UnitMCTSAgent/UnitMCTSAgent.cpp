@@ -61,7 +61,7 @@ namespace SGA {
        }
        parameters_.global_nodeID = 0;  // reinitialize the ID for node, witch is incremental as nodes created
        auto units = state.getPlayerEntities(getPlayerID()); 
-       //state.printBoard();
+       state.printBoard();
        // initialize the order of unit moving
        if(unitIndexInitialized == false) {
           for(auto unit : units) {
