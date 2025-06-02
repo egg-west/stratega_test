@@ -722,7 +722,7 @@ namespace SGA {
             if(abs_size == 0) continue;
 
             for (int j = 0; j < abs_size; j++) {
-               std::cout<< absNodes[i][j].size()<< " ";
+               // std::cout<< absNodes[i][j].size()<< " ";
                if (i == 1 && absNodes[i][j].size() == 1){
                   // printf("\n");
                   // for (int k = 0; k < absNodes[i][j].size(); k++) {
