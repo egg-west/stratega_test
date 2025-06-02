@@ -287,7 +287,6 @@ namespace SGA {
              {
                  // printf("try to abstract\n");
                  std::vector< UnitMCTSNode* > deep_layer = depthToNodes[i];
-                 // try ungroup part of the abstraction
 
                  for(auto node1 : deep_layer) {  // each initial node
 
@@ -426,9 +425,9 @@ namespace SGA {
 
 
              // printf("absNodeToStatistics.size: %lu\n", absNodeToStatistics.size());
-             ///* analyze the compression rate
+             /* analyze the compression rate
              if (tmp_batch_used < 21 && (absNodeToStatistics.size() != 0) && (treeNodetoAbsNode.size() != 0))
-                    std::cout<<"compression_rate: " << tmp_batch_used << " " << float(treeNodetoAbsNode.size()) / absNodeToStatistics.size() << std::endl;
+                    std::cout<<"compression_rate: " << tmp_batch_used << " (batch) " << float(treeNodetoAbsNode.size()) / absNodeToStatistics.size() << " (rate) " << std::endl;
              //*/
 
              // tmp_batch_used >=20 means do maximum 20 times abstraction in a step
@@ -740,14 +739,15 @@ namespace SGA {
     }
 
     void UnitMCTSAgent::printAbsNodeStatus() {
-      printf("printAbsNodeStatus\n");
-        for (int i = 1; i < parameters_.maxDepth; i++) {
+         printf("\nprintAbsNodeStatus\n");
+         for (int i = 1; i < parameters_.maxDepth; i++) {
             int abs_size = absNodes[i].size();
-            std::cout<< "depth: "<< i<< " abs Node: "<< abs_size << "\n";
-            if(abs_size == 0)continue;
+            printf("checking depth %d\n", absNodes[i][0].nodeDepth);
+            std::cout<< "depth: "<< i << " abs Node: "<< abs_size << "\n";
+            if(abs_size == 0) continue;
 
             for (int j = 0; j < abs_size; j++) {
-            std::cout<< absNodes[i][j].size()<< " ";
+               std::cout<< absNodes[i][j].size()<< " ";
             }
             std::cout<<"\n";
         }
