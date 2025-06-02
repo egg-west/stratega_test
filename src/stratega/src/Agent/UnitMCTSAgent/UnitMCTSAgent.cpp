@@ -736,7 +736,7 @@ namespace SGA {
                   //    absNodes[i][j][k]->print();
                   // }
                   // printf("\n\n");
-                  auto this_a = absNodes[i][j][k]->parentNode->actionSpace[absNodes[i][j][k]->childIndex];
+                  auto this_a = absNodes[i][j][0]->parentNode->actionSpace[absNodes[i][j][0]->childIndex];
                   alone_actions.push_back(unitStateHash(this_a));
                }
             }
