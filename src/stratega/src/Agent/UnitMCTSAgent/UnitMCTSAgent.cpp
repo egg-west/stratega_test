@@ -269,20 +269,7 @@ namespace SGA {
                 &depthToNodes,
                 &absNodeToStatistics);
 
-             /*
-             std::cout<<"After ungrouping, number of abs Node each depth:\n";
-             for (int i = 1; i < parameters_.maxDepth; i++) {
-                 int abs_size = absNodes[i].size();
-                 std::cout<< "depth: "<< i<< " abs Node: "<< abs_size << "\n";
-                 if(abs_size == 0)continue;
-
-                 for (int j = 0; j < abs_size; j++) {
-                 std::cout<< absNodes[i][j].size()<< " ";
-                 }
-                 std::cout<<"\n";
-             }//*/
-
-             // do abstraction
+             // The state abstraction loop, note that we do not cluster the leaves
              for(int i = parameters_.maxDepth - 1; (! stop_abstraction) && i > 0; i--)  // bottom-up
              {
                  // printf("try to abstract\n");
@@ -464,7 +451,9 @@ namespace SGA {
 
           // printf("After search, root visted: %d\n", rootNode->n_search_iteration);
           auto bestActionIndex = rootNode->mostVisitedAction( parameters_, getRNGEngine() );  // get and store best action
-
+         for (auto child: rootNode->children){
+            child->print();
+         }
           /*if (bestActionIndex == actionSpace.size()-1) { // this action is an endTurn, reinitialize
               //unitThisStep = 0;
               unitNextStep = 0;
@@ -742,7 +731,7 @@ namespace SGA {
          printf("\nprintAbsNodeStatus\n");
          for (int i = 1; i < parameters_.maxDepth; i++) {
             int abs_size = absNodes[i].size();
-            printf("checking depth %d\n", absNodes[i][0][0]->nodeDepth);
+            // printf("checking depth %d\n", absNodes[i][0][0]->nodeDepth);
             std::cout<< "depth: "<< i << " abs Node: "<< abs_size << "\n";
             if(abs_size == 0) continue;
 
