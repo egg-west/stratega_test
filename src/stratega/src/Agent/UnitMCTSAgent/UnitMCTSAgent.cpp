@@ -735,7 +735,6 @@ namespace SGA {
             //std::cout<<"\n";
         }
         printf("\nEnd printAbsNodeStatus\n");
-        return alone_actions;
     }
    // void UnitMCTSAgent::printAbsNodeStatus() {
    //    printf("\nprintAbsNodeStatus\n");
