@@ -751,9 +751,6 @@ namespace SGA {
                   printf("\n");
                }
             }
-            if (i == 1){
-               for (int j = 0; j < absNodes[i][1])
-            }
             std::cout<<"\n";
         }
     }
