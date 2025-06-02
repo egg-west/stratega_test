@@ -40,6 +40,7 @@ namespace SGA {
         // int hash_run = unitActionHash(a_run);
 
         // state.printActionInfo(a_test);
+        printf("\nFinal action\n");
         state.printActionInfo(a_run);
 
       //   if (hash_test != -1 && hash_test != 0 && hash_test == hash_run){
@@ -709,7 +710,7 @@ namespace SGA {
 
     void UnitMCTSAgent::printAbsNodeStatus() {
          printf("\nprintAbsNodeStatus\n");
-         for (int i = 1; i < parameters_.maxDepth; i++) {
+         for (int i = 1; i < 2; i++) {
             int abs_size = absNodes[i].size();
             // printf("checking depth %d\n", absNodes[i][0][0]->nodeDepth);
             std::cout<< "depth: "<< i << " abs Node: "<< abs_size << "\n";
@@ -728,4 +729,25 @@ namespace SGA {
             std::cout<<"\n";
         }
     }
+   // void UnitMCTSAgent::printAbsNodeStatus() {
+   //    printf("\nprintAbsNodeStatus\n");
+   //    for (int i = 1; i < parameters_.maxDepth; i++) {
+   //       int abs_size = absNodes[i].size();
+   //       // printf("checking depth %d\n", absNodes[i][0][0]->nodeDepth);
+   //       std::cout<< "depth: "<< i << " abs Node: "<< abs_size << "\n";
+   //       if(abs_size == 0) continue;
+
+   //       for (int j = 0; j < abs_size; j++) {
+   //          std::cout<< absNodes[i][j].size()<< " ";
+   //          if (i == 1){
+   //             printf("\n");
+   //             for (int k = 0; k < absNodes[i][j].size(); k++) {
+   //                absNodes[i][j][k]->print();
+   //             }
+   //             printf("\n\n");
+   //          }
+   //       }
+   //       std::cout<<"\n";
+   //    }
+   // }
 }  // namespace SGA
