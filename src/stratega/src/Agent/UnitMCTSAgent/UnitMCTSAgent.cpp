@@ -37,9 +37,9 @@ namespace SGA {
         int hash_test = unitActionHash(a_test);
         int hash_run = unitActionHash(a_run);
         if (hash_test == hash_run){
-         print("change action: 0\n");
+         printf("change action: 0\n");
         } else{
-         print("change action: 1\n");
+         printf("change action: 1\n");
         }
 
         printf("\n");
