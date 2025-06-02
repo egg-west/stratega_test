@@ -50,7 +50,7 @@ namespace SGA {
 
     Action UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
     {
-      printf("do abstraction %d", parameters_.DO_STATE_ABSTRACTION);
+      printf("do abstraction %d\n", parameters_.DO_STATE_ABSTRACTION);
       //  if (test){
       //    printf("test\n");
       //  }
@@ -281,6 +281,7 @@ namespace SGA {
              // do abstraction
              for(int i = parameters_.maxDepth - 1; (! stop_abstraction) && i > 0; i--)  // bottom-up
              {
+                 printf("try to abstract\n");
                  std::vector< UnitMCTSNode* > deep_layer = depthToNodes[i];
                  // try ungroup part of the abstraction
 
@@ -321,6 +322,7 @@ namespace SGA {
                                   }
                               }
                               if(match) {
+                                 printf("add into existing group\n");
                                  node1->isAbstracted = true;
                                  node1->absNodeID = i * tmp_index + j;
                                  absNodes[i][j].push_back(node1);  // add into existing group
@@ -440,6 +442,7 @@ namespace SGA {
 
 
              if(!stop_abstraction && tmp_batch_used >= parameters_.absBatch) {
+               printf("try to eliminate abs\n");
                  printAbsNodeStatus();
                  //std::cout<<"\n";
                  stop_abstraction = true;
