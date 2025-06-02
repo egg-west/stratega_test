@@ -442,7 +442,7 @@ namespace SGA {
 
 
              if(!stop_abstraction && tmp_batch_used >= parameters_.absBatch) {
-               printf("try to eliminate abs\n");
+               printf("batch_used: %d, try to eliminate abs\n", tmp_batch_used);
                  printAbsNodeStatus();
                  //std::cout<<"\n";
                  stop_abstraction = true;
@@ -736,6 +736,7 @@ namespace SGA {
     }
 
     void UnitMCTSAgent::printAbsNodeStatus() {
+      printf("printAbsNodeStatus\n");
         for (int i = 1; i < parameters_.maxDepth; i++) {
             int abs_size = absNodes[i].size();
             std::cout<< "depth: "<< i<< " abs Node: "<< abs_size << "\n";
