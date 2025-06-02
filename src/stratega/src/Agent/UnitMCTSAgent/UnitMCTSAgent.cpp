@@ -719,7 +719,7 @@ namespace SGA {
        return true;
     }
 
-    std::vector<int> UnitMCTSAgent::printAbsNodeStatus() {
+    std::vector<int> UnitMCTSAgent::printAbsNodeStatus(const ForwardModel& forwardModel) {
          printf("\nprintAbsNodeStatus\n");
          std::vector<int> alone_actions;
          for (int i = 1; i < 2; i++) {
@@ -736,12 +736,12 @@ namespace SGA {
                   //    absNodes[i][j][k]->print();
                   // }
                   // printf("\n\n");
-                  auto this_a = absNodes[i][j][0]->parentNode->actionSpace[absNodes[i][j][0]->childIndex];
-                  alone_actions.push_back(unitStateHash(this_a));
+                  absNodes[i][j][0]->printActionInfo();
                }
             }
             //std::cout<<"\n";
         }
+        printf("\nEnd printAbsNodeStatus\n");
         return alone_actions;
     }
    // void UnitMCTSAgent::printAbsNodeStatus() {
