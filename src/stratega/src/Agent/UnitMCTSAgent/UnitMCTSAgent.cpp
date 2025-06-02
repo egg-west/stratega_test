@@ -432,8 +432,8 @@ namespace SGA {
 
 
              if(!stop_abstraction && tmp_batch_used >= parameters_.absBatch) {
-                 // printf("batch_used: %d, try to eliminate abs\n", tmp_batch_used);
-                 printAbsNodeStatus();
+                 printf("batch_used: %d, try to eliminate abs\n", tmp_batch_used);
+                 // printAbsNodeStatus();
                  //std::cout<<"\n";
                  stop_abstraction = true;
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
@@ -450,14 +450,16 @@ namespace SGA {
           //std::cout<<n_abs_iteration<<"\n";
 
           // printf("After search, root visted: %d\n", rootNode->n_search_iteration);
-          auto bestActionIndex = rootNode->mostVisitedAction( parameters_, getRNGEngine() );  // get and store best action
-         for (size_t i = 0; i < (rootNode->children).size(); ++i)
-         {
-            UnitMCTSNode* child = rootNode->children[i].get();
+          auto bestActionIndex = rootNode->mostVisitedAction( parameters_, getRNGEngine() );
 
-            child->print();
-            // printf("children value: %f\n", hvVal);
-         }
+          printAbsNodeStatus();
+         // for (size_t i = 0; i < (rootNode->children).size(); ++i)
+         // {
+         //    UnitMCTSNode* child = rootNode->children[i].get();
+
+         //    child->print();
+
+         // }
           /*if (bestActionIndex == actionSpace.size()-1) { // this action is an endTurn, reinitialize
               //unitThisStep = 0;
               unitNextStep = 0;
@@ -741,6 +743,16 @@ namespace SGA {
 
             for (int j = 0; j < abs_size; j++) {
                std::cout<< absNodes[i][j].size()<< " ";
+               if (i == 1){
+                  printf("\n");
+                  for (int k = 0; k < absNodes[i][j].size(); k++) {
+                     absNodes[i][j][k]->print();
+                  }
+                  printf("\n");
+               }
+            }
+            if (i == 1){
+               for (int j = 0; j < absNodes[i][1])
             }
             std::cout<<"\n";
         }
