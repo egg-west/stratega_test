@@ -29,24 +29,24 @@ namespace SGA {
             parameters_.printDetails();
     }
     ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
-        auto stateCopy(state);
-        parameters_.DO_STATE_ABSTRACTION = false;
-        auto a_test = computeAction_test(stateCopy, forwardModel, timer, true);
+        // auto stateCopy(state);
+        // parameters_.DO_STATE_ABSTRACTION = false;
+        // auto a_test = computeAction_test(stateCopy, forwardModel, timer, true);
         // printf("test finished\n");
-        parameters_.DO_STATE_ABSTRACTION = true;
+        // parameters_.DO_STATE_ABSTRACTION = true;
         auto a_run = computeAction_test(state, forwardModel, timer, false);
 
-        int hash_test = unitActionHash(a_test);
-        int hash_run = unitActionHash(a_run);
+        // int hash_test = unitActionHash(a_test);
+        // int hash_run = unitActionHash(a_run);
 
-        state.printActionInfo(a_test);
+        // state.printActionInfo(a_test);
         state.printActionInfo(a_run);
 
-        if (hash_test != -1 && hash_test != 0 && hash_test == hash_run){
-         printf("change action: 0\n\n");
-        } else{
-         printf("change action: 1\n\n");
-        }
+      //   if (hash_test != -1 && hash_test != 0 && hash_test == hash_run){
+      //    printf("change action: 0\n\n");
+      //   } else{
+      //    printf("change action: 1\n\n");
+      //   }
 
         // printf("\n");
         return ActionAssignment::fromSingleAction(a_run);
@@ -419,10 +419,10 @@ namespace SGA {
 
              // tmp_batch_used >=20 means do maximum 20 times abstraction in a step
              if(parameters_.REMAINING_FM_CALLS <= 0 || rootNode->n_search_iteration >= parameters_.maxFMCalls) {
-                 //
 
                  //std::cout<<"End searching, number of abs Node each depth:\n";
                  //rootNode->printTree();
+                 printAbsNodeStatus();
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
                  //deleteAbstraction();
                  //std::cout<<"maximum batch: "<< n_abs_iteration << " \n";
@@ -433,7 +433,7 @@ namespace SGA {
 
              if(!stop_abstraction && tmp_batch_used >= parameters_.absBatch) {
                  printf("batch_used: %d, try to eliminate abs\n", tmp_batch_used);
-                 // printAbsNodeStatus();
+                 printAbsNodeStatus();
                  //std::cout<<"\n";
                  stop_abstraction = true;
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
@@ -452,7 +452,7 @@ namespace SGA {
           // printf("After search, root visted: %d\n", rootNode->n_search_iteration);
           auto bestActionIndex = rootNode->mostVisitedAction( parameters_, getRNGEngine() );
 
-          printAbsNodeStatus();
+          //printAbsNodeStatus();
          // for (size_t i = 0; i < (rootNode->children).size(); ++i)
          // {
          //    UnitMCTSNode* child = rootNode->children[i].get();
@@ -748,7 +748,7 @@ namespace SGA {
                   for (int k = 0; k < absNodes[i][j].size(); k++) {
                      absNodes[i][j][k]->print();
                   }
-                  printf("\n");
+                  printf("\n\n");
                }
             }
             std::cout<<"\n";
