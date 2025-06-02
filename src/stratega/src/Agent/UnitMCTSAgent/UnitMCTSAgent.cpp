@@ -54,10 +54,10 @@ namespace SGA {
        int unitThisStep_cp = unitThisStep;
        int unitNextStep_cp = unitNextStep;
 
-       printf("before search, unitThisStep: %d, next: %d", unitThisStep, unitNextStep);
+       // printf("before search, unitThisStep: %d, next: %d", unitThisStep, unitNextStep);
 
        const auto actionSpace_inspect = forwardModel.generateActions(state, getPlayerID());
-       printf("Action space: %lu\n", actionSpace_inspect.size());
+       // printf("Action space: %lu\n", actionSpace_inspect.size());
 
        if(newRound) {
          newRound = false;
@@ -99,12 +99,12 @@ namespace SGA {
           auto actionSpace_tmp = forwardModel.generateUnitActions(state, e, getPlayerID(), false);
 
           if(actionSpace_tmp.size() == 0) {
-             printf("Need new because this action space is empty!");
+             // printf("Need new because this action space is empty!");
              needNextUnit = true;
           } else {
           }
        }
-       printf("need next unit: %d\n", needNextUnit);
+       // printf("need next unit: %d\n", needNextUnit);
 
 	   //std::cout << "Do we need the next unit? " << needNextUnit << std::endl;
 
@@ -117,7 +117,7 @@ namespace SGA {
                 break;
              }
           }
-          printf("tmp_unitNextStep: %d", tmp_unitNextStep);
+          // printf("tmp_unitNextStep: %d", tmp_unitNextStep);
 
           // execute EndTurn if there is no valid next unit.
           if(tmp_unitNextStep == unitIndex.size()) {  // every unit moved, end the turn
@@ -133,7 +133,7 @@ namespace SGA {
              // state.printBoard();
 			 // std::cout<<"execute EndTurn if there is no valid next unit."<<std::endl;
              if (test){
-               printf("test recover point 1\n");
+               // printf("test recover point 1\n");
                newRound= newRound_cp;
                global_absNodeIndex = global_absNodeIndex_cp;
                initialized = initialized_cp;
@@ -144,7 +144,7 @@ namespace SGA {
                unitThisStep = unitThisStep_cp;
                unitNextStep = unitNextStep_cp;
              }
-             printf("return with action\n");
+             // printf("return with action\n");
              state.printActionInfo(endAction);
              return ActionAssignment::fromSingleAction(endAction);
           }
@@ -152,7 +152,7 @@ namespace SGA {
           unitThisStep = tmp_unitNextStep;
        }
 
-       printf("unitThisStep %d\n", unitThisStep);
+       // printf("unitThisStep %d\n", unitThisStep);
        parameters_.REMAINING_FM_CALLS = parameters_.maxFMCalls;
 
 
@@ -170,7 +170,7 @@ namespace SGA {
        // const auto actionSpace = forwardModel.generateActions(state, getPlayerID());
        std::vector< Action > actionSpace = forwardModel.generateUnitActions(
           state, units[eIDtoUnitArrayIndex[unitIndex[unitThisStep]]], getPlayerID(), false);
-       printf("unitActionSpace size %ld\n", actionSpace.size());
+       // printf("unitActionSpace size %ld\n", actionSpace.size());
        // return the only action
        // todo update condition to an and in case we can compare gameStates, since we currently cannot
        // reuse the tree after an endTurnAction
@@ -459,7 +459,7 @@ namespace SGA {
           //std::cout<<"iteration " << rootNode->n_search_iteration<<"\n";
           //std::cout<<n_abs_iteration<<"\n";
 
-          printf("After search, root visted: %d\n", rootNode->n_search_iteration);
+          // printf("After search, root visted: %d\n", rootNode->n_search_iteration);
           auto bestActionIndex = rootNode->mostVisitedAction( parameters_, getRNGEngine() );  // get and store best action
 
           /*if (bestActionIndex == actionSpace.size()-1) { // this action is an endTurn, reinitialize
