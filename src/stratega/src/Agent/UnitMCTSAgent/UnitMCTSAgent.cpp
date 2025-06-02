@@ -30,8 +30,10 @@ namespace SGA {
     }
     ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
         auto stateCopy(state);
+        parameters_.DO_STATE_ABSTRACTION = false;
         auto a_test = computeAction_test(stateCopy, forwardModel, timer, true);
         // printf("test finished\n");
+        parameters_.DO_STATE_ABSTRACTION = true;
         auto a_run = computeAction_test(state, forwardModel, timer, false);
 
         int hash_test = unitActionHash(a_test);
