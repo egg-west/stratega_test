@@ -50,7 +50,7 @@ namespace SGA {
 
     Action UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
     {
-
+      printf(f"do abstraction %d", parameters_.DO_STATE_ABSTRACTION);
       //  if (test){
       //    printf("test\n");
       //  }
@@ -285,23 +285,7 @@ namespace SGA {
                  // try ungroup part of the abstraction
 
                  for(auto node1 : deep_layer) {  // each initial node
-                     // if ungrouped, don't abstract again
-                     // 
-                     // aamas if one parent is ungrouped, this subtree will not be abstracted
-                     if(parameters_.SUBTREE_UNGROUPING){
-                         auto tmp_node = node1;
-                         while (tmp_node) {
-                            if (tmp_node->isUngrouped) {
-                                node1->isUngrouped=true;
-                                break;
-                            }
-                            tmp_node = tmp_node->parentNode;
-                         }
-                     }
 
-                    // aamas, leaf node skip abstraction
-                    if(node1->isAbstracted || node1->isUngrouped || node1->children.size() == 0)
-                       continue;  // can be adjusted
 
                     if(absNodes[i].size() == 0) {  // this depth has no node cluster
 
@@ -435,6 +419,7 @@ namespace SGA {
              tmp_batch_used++;
 
 
+             printf("absNodeToStatistics.size: %lu\n", absNodeToStatistics.size());
              ///* analyze the compression rate
              if (tmp_batch_used < 21 && (absNodeToStatistics.size() != 0) && (treeNodetoAbsNode.size() != 0))
                     std::cout<<"compression_rate: " << tmp_batch_used << " " << float(treeNodetoAbsNode.size()) / absNodeToStatistics.size() << std::endl;
@@ -455,7 +440,7 @@ namespace SGA {
 
 
              if(!stop_abstraction && tmp_batch_used >= parameters_.absBatch) {
-                 //printAbsNodeStatus();
+                 printAbsNodeStatus();
                  //std::cout<<"\n";
                  stop_abstraction = true;
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
@@ -536,7 +521,7 @@ namespace SGA {
           //double score  = parameters_.heuristic->evaluateGameState(forwardModel, state,parameters_.PLAYER_ID );
           //std::cout<<score << "\n";
 
-         ///*
+         /*
           for (int i = 1; i < 10; i++) { // depth
                if (absNodes[i].size() == 0) {
                   std::cout<<"\n";
