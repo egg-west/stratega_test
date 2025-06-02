@@ -202,7 +202,8 @@ namespace SGA {
             unitThisStep = unitThisStep_cp;
             unitNextStep = unitNextStep_cp;
             }
-          return ActionAssignment::fromSingleAction(actionSpace.at(0));
+          // return ActionAssignment::fromSingleAction(actionSpace.at(0));
+          return actionSpace.at(0);
        } else {
           if(parameters_.CONTINUE_PREVIOUS_SEARCH && previousActionIndex != -1) {
              // in case of deterministic games we know which move has been done by us
