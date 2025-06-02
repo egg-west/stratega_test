@@ -40,6 +40,9 @@ namespace SGA {
     ActionAssignment UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
     {
 
+       if (test){
+         printf("test\n");
+       }
        bool newRound_cp = newRound;
        int global_absNodeIndex_cp = global_absNodeIndex;
        bool initialized_cp = initialized;
@@ -226,6 +229,7 @@ namespace SGA {
           bool stop_abstraction = false;
 
           while(parameters_.DO_STATE_ABSTRACTION) {
+             printf("During search, remain budget: %d\n", parameters_.REMAINING_FM_CALLS);
              if(parameters_.REMAINING_FM_CALLS <= 0)
                 break;
 
@@ -443,6 +447,7 @@ namespace SGA {
           //std::cout<<"iteration " << rootNode->n_search_iteration<<"\n";
           //std::cout<<n_abs_iteration<<"\n";
 
+          printf("After search, root visted: %d\n", rootNode->n_search_iteration);
           auto bestActionIndex = rootNode->mostVisitedAction( parameters_, getRNGEngine() );  // get and store best action
 
           /*if (bestActionIndex == actionSpace.size()-1) { // this action is an endTurn, reinitialize
