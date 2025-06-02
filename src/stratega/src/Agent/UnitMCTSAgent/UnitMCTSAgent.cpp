@@ -50,8 +50,8 @@ namespace SGA {
        bool unitThisStep_cp = unitThisStep;
        bool unitNextStep_cp = unitNextStep;
 
-       const auto actionSpace = forwardModel.generateActions(state, getPlayerID());
-       printf("%d\n", actionSpace.size());
+       const auto actionSpace_tmp = forwardModel.generateActions(state, getPlayerID());
+       printf("%d\n", actionSpace_tmp.size());
 
        if(newRound) {
          newRound = false;
