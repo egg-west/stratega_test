@@ -46,7 +46,7 @@ namespace SGA {
         return ActionAssignment::fromSingleAction(a_run);
     }
 
-    ActionAssignment UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
+    Action UnitMCTSAgent::computeAction_test(GameState state, const ForwardModel& forwardModel, Timer timer, bool test)
     {
 
       //  if (test){
