@@ -295,6 +295,7 @@ namespace SGA {
 
                         continue;
                     }
+                    if(node1->isAbstracted) continue;
 
                     if(!(parameters_.random_abstraction)){
                        bool foundExistGroup = false;
@@ -323,6 +324,7 @@ namespace SGA {
                               foundExistGroup = true;
                            }//end if (match)
                         }
+                        if(node1->isAbstracted) continue;
 
 
                        // not found existing abstract node to add in, create a new one
@@ -413,6 +415,7 @@ namespace SGA {
                  stop_abstraction = true;
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
                  deleteAbstraction();
+                 break; // this is not the algorithm logic, just for inspection
              }
 
           }
