@@ -54,7 +54,7 @@ namespace SGA {
        bool unitNextStep_cp = unitNextStep;
 
        const auto actionSpace_inspect = forwardModel.generateActions(state, getPlayerID());
-       printf("%lu\n", actionSpace_inspect.size());
+       printf("Action space: %lu\n", actionSpace_inspect.size());
 
        if(newRound) {
          newRound = false;
@@ -229,7 +229,7 @@ namespace SGA {
           bool stop_abstraction = false;
 
           while(parameters_.DO_STATE_ABSTRACTION) {
-             printf("During search, remain budget: %d\n", parameters_.REMAINING_FM_CALLS);
+             printf("During search, remain budget: %f\n", parameters_.REMAINING_FM_CALLS);
              if(parameters_.REMAINING_FM_CALLS <= 0)
                 break;
 
