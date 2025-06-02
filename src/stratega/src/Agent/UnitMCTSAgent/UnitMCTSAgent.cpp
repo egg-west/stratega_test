@@ -421,7 +421,7 @@ namespace SGA {
              tmp_batch_used++;
 
 
-             printf("absNodeToStatistics.size: %lu\n", absNodeToStatistics.size());
+             // printf("absNodeToStatistics.size: %lu\n", absNodeToStatistics.size());
              ///* analyze the compression rate
              if (tmp_batch_used < 21 && (absNodeToStatistics.size() != 0) && (treeNodetoAbsNode.size() != 0))
                     std::cout<<"compression_rate: " << tmp_batch_used << " " << float(treeNodetoAbsNode.size()) / absNodeToStatistics.size() << std::endl;
@@ -442,7 +442,7 @@ namespace SGA {
 
 
              if(!stop_abstraction && tmp_batch_used >= parameters_.absBatch) {
-               printf("batch_used: %d, try to eliminate abs\n", tmp_batch_used);
+                 // printf("batch_used: %d, try to eliminate abs\n", tmp_batch_used);
                  printAbsNodeStatus();
                  //std::cout<<"\n";
                  stop_abstraction = true;
