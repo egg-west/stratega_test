@@ -30,8 +30,8 @@ namespace SGA {
     }
     ActionAssignment UnitMCTSAgent::computeAction(GameState state, const ForwardModel& forwardModel, Timer timer){
         auto stateCopy(state);
-        computeAction_test(state, forwardModel, timer, true);
-        ActionAssignment a = computeAction_test(stateCopy, forwardModel, timer, false);
+        computeAction_test(stateCopy, forwardModel, timer, true);
+        ActionAssignment a = computeAction_test(state, forwardModel, timer, false);
 
         printf("\n");
         return a;

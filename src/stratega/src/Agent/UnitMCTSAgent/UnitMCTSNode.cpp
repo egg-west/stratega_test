@@ -626,7 +626,7 @@ namespace SGA
 			childValues[i] = hvVal;
 		}
 
-		printf("%d", children.size());
+		// printf("%d\n", children.size());
 		for (size_t i = 0; i < children.size(); i++) {
 
 			if (children[i] != nullptr)
