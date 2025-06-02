@@ -275,8 +275,8 @@ namespace SGA {
                  // printf("try to abstract\n");
                  std::vector< UnitMCTSNode* > deep_layer = depthToNodes[i];
 
-                 for(auto node1 : deep_layer) {  // each initial node
-
+                 for(auto node1 : deep_layer) {  // each original node
+                    if(node1->isAbstracted) continue;
 
                     if(absNodes[i].size() == 0) {  // this depth has no node cluster
 
@@ -288,7 +288,7 @@ namespace SGA {
                             std::vector< double >{node1->value, float(node1->nVisits)}));
 
                         node1->isAbstracted = true;
-                        node1->absNodeID = i * 1000 + absNodes[i].size() - 1;
+                        node1->absNodeID = i * 1000 + absNodes[i].size() - 1; // a hash approach to generate an ID
 
                         treeNodetoAbsNode.insert(std::pair< int, int >(node1->nodeID, i*1000+0)); // added 20221014
 
@@ -297,58 +297,32 @@ namespace SGA {
 
                     if(!(parameters_.random_abstraction)){
                        bool foundExistGroup = false;
-                       if (parameters_.IS_ACTION_INDEPENDENT) {
-                           for(int j = 0; j < absNodes[i].size(); j++)  // each abstract nodes: nodes cluster
-                           {
-                              bool match = true;
+
+                        for(int j = 0; j < absNodes[i].size(); j++)  // each abstract nodes: nodes cluster
+                        {
+                              bool match = false;
                               for(int k = 0; k < absNodes[i][j].size(); k++) {  // compare between new ground nodes to the abstract Nodes
-                                  if(!isActionIndependentHomomorphism(
+
+                                 if(isTwoNodeApproxmateHomomorphism(
                                     forwardModel,
                                     node1,
                                     absNodes[i][j][k],
                                     parameters_.R_THRESHOLD,
                                     parameters_.T_THRESHOLD)) {
-                                       match = false;
-                                  }
-                              }
-                              if(match) {
-                                 printf("add into existing group\n");
-                                 node1->isAbstracted = true;
-                                 node1->absNodeID = i * tmp_index + j;
-                                 absNodes[i][j].push_back(node1);  // add into existing group
-                                 //treeNodetoAbsNode.insert(std::pair< int, int >(node1->nodeID, node1->absNodeID));
-                                 treeNodetoAbsNode.insert(std::pair< int, int >(node1->nodeID, i*1000+j));
+                                       match = true;
+                                       break;
+                                    } // end if
+                           } // end for
+                           if(match) {
+                              node1->isAbstracted = true;
+                              node1->absNodeID = i * tmp_index + j;
+                              absNodes[i][j].push_back(node1);  // add into existing group
+                              treeNodetoAbsNode.insert(std::pair< int, int >(node1->nodeID, node1->absNodeID));
 
-                                 foundExistGroup = true;
-                              }//end if (match)
-                           }
-                       }
-                       else {
-                           for(int j = 0; j < absNodes[i].size(); j++)  // each abstract nodes: nodes cluster
-                           {
-                               bool match = false;
-                               for(int k = 0; k < absNodes[i][j].size(); k++) {  // compare between new ground nodes to the abstract Nodes
+                              foundExistGroup = true;
+                           }//end if (match)
+                        }
 
-                                   if(isTwoNodeApproxmateHomomorphism(
-                                     forwardModel,
-                                     node1,
-                                     absNodes[i][j][k],
-                                     parameters_.R_THRESHOLD,
-                                     parameters_.T_THRESHOLD)) {
-                                        match = true;
-                                        break;
-                                     } // end if
-                              } // end for
-                              if(match) {
-                                 node1->isAbstracted = true;
-                                 node1->absNodeID = i * tmp_index + j;
-                                 absNodes[i][j].push_back(node1);  // add into existing group
-                                 treeNodetoAbsNode.insert(std::pair< int, int >(node1->nodeID, node1->absNodeID));
-
-                                 foundExistGroup = true;
-                              }//end if (match)
-                           }
-                       }
 
                        // not found existing abstract node to add in, create a new one
                        if(! foundExistGroup) {
@@ -420,7 +394,7 @@ namespace SGA {
              // tmp_batch_used >=20 means do maximum 20 times abstraction in a step
              if(parameters_.REMAINING_FM_CALLS <= 0 || rootNode->n_search_iteration >= parameters_.maxFMCalls) {
 
-                 //std::cout<<"End searching, number of abs Node each depth:\n";
+                 std::cout<<"End searching, number of abs Node each depth:\n";
                  //rootNode->printTree();
                  printAbsNodeStatus();
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
