@@ -53,6 +53,8 @@ namespace SGA {
        bool unitThisStep_cp = unitThisStep;
        bool unitNextStep_cp = unitNextStep;
 
+       printf("before search, unitThisStep: %d, next: %d", unitThisStep, unitNextStep);
+
        const auto actionSpace_inspect = forwardModel.generateActions(state, getPlayerID());
        printf("Action space: %lu\n", actionSpace_inspect.size());
 
@@ -61,7 +63,7 @@ namespace SGA {
        }
        parameters_.global_nodeID = 0;  // reinitialize the ID for node, witch is incremental as nodes created
        auto units = state.getPlayerEntities(getPlayerID()); 
-       state.printBoard();
+       // state.printBoard();
        // initialize the order of unit moving
        if(unitIndexInitialized == false) {
           for(auto unit : units) {
@@ -96,6 +98,7 @@ namespace SGA {
           auto actionSpace_tmp = forwardModel.generateUnitActions(state, e, getPlayerID(), false);
 
           if(actionSpace_tmp.size() == 0) {
+             printf("Need new because this action space is empty!");
              needNextUnit = true;
           } else {
           }
@@ -113,6 +116,7 @@ namespace SGA {
                 break;
              }
           }
+          printf("tmp_unitNextStep: %d", tmp_unitNextStep);
 
           // execute EndTurn if there is no valid next unit.
           if(tmp_unitNextStep == unitIndex.size()) {  // every unit moved, end the turn
@@ -138,6 +142,8 @@ namespace SGA {
                unitThisStep = unitThisStep_cp;
                unitNextStep = unitNextStep_cp;
              }
+             printf("return with action\n");
+             state.printActionInfo(endAction);
              return ActionAssignment::fromSingleAction(endAction);
           }
 
