@@ -719,9 +719,8 @@ namespace SGA {
        return true;
     }
 
-    std::vector<int> UnitMCTSAgent::printAbsNodeStatus(const ForwardModel& forwardModel) {
+    void UnitMCTSAgent::printAbsNodeStatus() {
          printf("\nprintAbsNodeStatus\n");
-         std::vector<int> alone_actions;
          for (int i = 1; i < 2; i++) {
             int abs_size = absNodes[i].size();
             // printf("checking depth %d\n", absNodes[i][0][0]->nodeDepth);

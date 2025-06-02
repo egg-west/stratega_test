@@ -68,7 +68,7 @@ namespace SGA {
             treeNodetoAbsNode = std::map< int, int >();
         }
 
-        std::vector<int> printAbsNodeStatus();
+        void printAbsNodeStatus();
 
         //ActionAssignment computeAction(GameState state, const ForwardModel& forwardModel, long timeBudgetMs) override;
         ActionAssignment computeAction(GameState state, const ForwardModel& forwardModel, Timer timer) override;
