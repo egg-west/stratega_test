@@ -124,7 +124,7 @@ namespace SGA {
                previousActionIndex = previousActionIndex_cp;
                playerTurn = playerTurn_cp;
                step = step_cp;
-               unitIndexInitialized = unitIndexInitialized_cp
+               unitIndexInitialized = unitIndexInitialized_cp;
                unitThisStep = unitThisStep_cp;
                unitNextStep = unitNextStep_cp;
              }
@@ -170,7 +170,7 @@ namespace SGA {
             previousActionIndex = previousActionIndex_cp;
             playerTurn = playerTurn_cp;
             step = step_cp;
-            unitIndexInitialized = unitIndexInitialized_cp
+            unitIndexInitialized = unitIndexInitialized_cp;
             unitThisStep = unitThisStep_cp;
             unitNextStep = unitNextStep_cp;
             }
@@ -545,7 +545,7 @@ namespace SGA {
                previousActionIndex = previousActionIndex_cp;
                playerTurn = playerTurn_cp;
                step = step_cp;
-               unitIndexInitialized = unitIndexInitialized_cp
+               unitIndexInitialized = unitIndexInitialized_cp;
                unitThisStep = unitThisStep_cp;
                unitNextStep = unitNextStep_cp;
           }
