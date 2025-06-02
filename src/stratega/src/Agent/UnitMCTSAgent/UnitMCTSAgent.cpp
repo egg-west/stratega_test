@@ -42,7 +42,7 @@ namespace SGA {
          printf("change action: 1\n");
         }
 
-        printf("\n");
+        // printf("\n");
         return ActionAssignment::fromSingleAction(a_run);
     }
 
@@ -153,7 +153,7 @@ namespace SGA {
                unitNextStep = unitNextStep_cp;
              }
              // printf("return with action\n");
-             state.printActionInfo(endAction);
+             //state.printActionInfo(endAction);
              // return ActionAssignment::fromSingleAction(endAction);
              return endAction;
           }
@@ -225,7 +225,7 @@ namespace SGA {
 
           } else  // start a new tree
           {
-             printf("make a new rootNode!\n player id: %d\n", getPlayerID());
+             // printf("make a new rootNode!\n player id: %d\n", getPlayerID());
              // auto a_space_unit = forwardModel.generateUnitActions(this->gameState, *unit, playerID, false);
              rootNode = std::make_unique< UnitMCTSNode >(
                 *processedForwardModel, state, unitIndex, unitThisStep, getPlayerID(), 0);
