@@ -627,7 +627,7 @@ namespace SGA
 
 			const double hvVal = child->value;
 			childValues[i] = hvVal;
-			printf("children value: %f\n", hvVal);
+			// printf("children value: %f\n", hvVal);
 		}
 
 		// printf("%d\n", children.size());
