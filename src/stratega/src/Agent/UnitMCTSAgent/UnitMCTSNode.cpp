@@ -295,9 +295,9 @@ namespace SGA
 
 		while (!(cur->gameState.isGameOver()))// && cur->nodeDepth < params.ROLLOUT_LENGTH)
 		{
-			printf("not game over!\n");
+			// printf("not game over!\n");
 			if (!cur->isFullyExpanded()) {
-				printf("not fully expanded!\n");
+				// printf("not fully expanded!\n");
 				return (cur->expand(forwardModel, params, randomGenerator, depthToNodes));
 			}
 			else {

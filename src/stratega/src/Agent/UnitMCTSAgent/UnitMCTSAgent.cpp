@@ -100,6 +100,7 @@ namespace SGA {
           } else {
           }
        }
+       printf("need next unit: %d\n", needNextUnit);
 
 	   //std::cout << "Do we need the next unit? " << needNextUnit << std::endl;
 
@@ -143,6 +144,7 @@ namespace SGA {
           unitThisStep = tmp_unitNextStep;
        }
 
+       printf("unitThisStep %d\n", unitThisStep);
        parameters_.REMAINING_FM_CALLS = parameters_.maxFMCalls;
 
 
@@ -160,7 +162,7 @@ namespace SGA {
        // const auto actionSpace = forwardModel.generateActions(state, getPlayerID());
        std::vector< Action > actionSpace = forwardModel.generateUnitActions(
           state, units[eIDtoUnitArrayIndex[unitIndex[unitThisStep]]], getPlayerID(), false);
-       
+       printf("unitActionSpace size %ld\n", actionSpace.size());
        // return the only action
        // todo update condition to an and in case we can compare gameStates, since we currently cannot
        // reuse the tree after an endTurnAction
@@ -205,7 +207,8 @@ namespace SGA {
 
           } else  // start a new tree
           {
-            printf("make a new rootNode!\n\n");
+             printf("make a new rootNode!\n player id: %d\n", getPlayerID());
+             // auto a_space_unit = forwardModel.generateUnitActions(this->gameState, *unit, playerID, false);
              rootNode = std::make_unique< UnitMCTSNode >(
                 *processedForwardModel, state, unitIndex, unitThisStep, getPlayerID(), 0);
 
