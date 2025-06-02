@@ -359,7 +359,7 @@ namespace SGA {
                           absNodeToStatistics.insert(std::pair< int, std::vector< double > >(
                              i * tmp_index + absNodes[i].size() - 1,
                              std::vector< double >{node1->value, float(node1->nVisits)}));
-                          
+
                           node1->isAbstracted = true;
                           node1->absNodeID = i * tmp_index + absNodes[i].size() - 1;
                           treeNodetoAbsNode.insert(std::pair<int, int>(node1->nodeID, node1->absNodeID ));
@@ -399,7 +399,11 @@ namespace SGA {
 
                  std::cout<<"End searching, number of abs Node each depth:\n";
                  //rootNode->printTree();
-                 printAbsNodeStatus();
+                 std::vector<int> alone_actions = printAbsNodeStatus();
+                 for (auto a: alone_actions){
+                    printf("%d ", a);
+                 }
+                 printf("\n");
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
                  //deleteAbstraction();
                  //std::cout<<"maximum batch: "<< n_abs_iteration << " \n";
@@ -410,7 +414,11 @@ namespace SGA {
 
              if(!stop_abstraction && tmp_batch_used >= parameters_.absBatch) {
                  printf("batch_used: %d, try to eliminate abs\n", tmp_batch_used);
-                 printAbsNodeStatus();
+                 std::vector<int> alone_actions = printAbsNodeStatus();
+                 for (auto a: alone_actions){
+                    printf("%d ", a);
+                 }
+                 printf("\n");
                  //std::cout<<"\n";
                  stop_abstraction = true;
                  rootNode->eliminateAbstraction(&absNodeToStatistics);
@@ -711,26 +719,30 @@ namespace SGA {
        return true;
     }
 
-    void UnitMCTSAgent::printAbsNodeStatus() {
+    std::vector<int> UnitMCTSAgent::printAbsNodeStatus() {
          printf("\nprintAbsNodeStatus\n");
+         std::vector<int> alone_actions;
          for (int i = 1; i < 2; i++) {
             int abs_size = absNodes[i].size();
             // printf("checking depth %d\n", absNodes[i][0][0]->nodeDepth);
-            std::cout<< "depth: "<< i << " abs Node: "<< abs_size << "\n";
+            //std::cout<< "depth: "<< i << " abs Node: "<< abs_size << "\n";
             if(abs_size == 0) continue;
 
             for (int j = 0; j < abs_size; j++) {
                std::cout<< absNodes[i][j].size()<< " ";
-               if (i == 1){
-                  printf("\n");
-                  for (int k = 0; k < absNodes[i][j].size(); k++) {
-                     absNodes[i][j][k]->print();
-                  }
-                  printf("\n\n");
+               if (i == 1 && absNodes[i][j].size() == 1){
+                  // printf("\n");
+                  // for (int k = 0; k < absNodes[i][j].size(); k++) {
+                  //    absNodes[i][j][k]->print();
+                  // }
+                  // printf("\n\n");
+                  auto this_a = absNodes[i][j][k]->parentNode->actionSpace[absNodes[i][j][k]->childIndex];
+                  alone_actions.push_back(unitStateHash(this_a));
                }
             }
-            std::cout<<"\n";
+            //std::cout<<"\n";
         }
+        return alone_actions;
     }
    // void UnitMCTSAgent::printAbsNodeStatus() {
    //    printf("\nprintAbsNodeStatus\n");
