@@ -281,7 +281,7 @@ namespace SGA {
              // do abstraction
              for(int i = parameters_.maxDepth - 1; (! stop_abstraction) && i > 0; i--)  // bottom-up
              {
-                 printf("try to abstract\n");
+                 // printf("try to abstract\n");
                  std::vector< UnitMCTSNode* > deep_layer = depthToNodes[i];
                  // try ungroup part of the abstraction
 
