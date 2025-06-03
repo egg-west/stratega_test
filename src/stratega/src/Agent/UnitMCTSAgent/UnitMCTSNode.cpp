@@ -577,7 +577,6 @@ namespace SGA
 				}
 				targetGameState.printActionInfo(opAction);
 				*/
-				
 
 				//auto opAction = params.OPPONENT_MODEL->getAction(targetGameState, actions,  targetGameState.getCurrentTBSPlayer());
 				forwardModel.advanceGameState(targetGameState, opAction);
